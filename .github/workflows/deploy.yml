@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: |  # Create 301 redirections
           import os
-          DIR = os.path.join(os.getcwd(), 'pages_301')
+          DIR = os.path.join(os.getcwd(), 'pages', 'pages_301')
           print(f"DIR: {DIR}")
           os.mkdir(DIR)
           pages = [
@@ -152,11 +152,11 @@ jobs:
         with:
           ruby-version: '3.0'
       - run: gem install bundler && bundle install && bundle exec jekyll build
-      - run: cat ./_site/index.html
-      - run: cat ./_site/sharing-values-github-actions-steps-jobs.html
       - uses: nvfp/ghact-dirtree@main
         with:
           dir: ./_site
+      - run: cat ./_site/index.html
+      - run: cat ./_site/sharing-values-github-actions-steps-jobs.html
       - uses: actions/upload-pages-artifact@v2
         if: github.event_name != 'pull_request'
       - uses: actions/deploy-pages@v2
