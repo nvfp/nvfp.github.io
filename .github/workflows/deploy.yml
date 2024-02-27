@@ -106,9 +106,9 @@ jobs:
           </body>
           </html>
           """.strip('\n')
-            print(repr(text))
+            print(repr(text.strip('\n')))
 
-            with open(os.path.join(DIR, f"file_{page_idx}.html"), 'w') as f: f.write(text)
+            with open(os.path.join(DIR, f"file_{page_idx}.html"), 'w') as f: f.write(text.strip('\n'))
         shell: python
       - run: cat ./pages/pages_301/file_0.html
       - run: cat ./pages/pages_301/file_10.html
