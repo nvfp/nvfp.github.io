@@ -145,7 +145,7 @@ jobs:
             </html>
             """.strip('\n')
 
-            with open(os.path.join(DIR, f"file_{page_idx}"), 'w') as f: f.write(text)
+            with open(os.path.join(DIR, f"file_{page_idx}.html"), 'w') as f: f.write(text)
         shell: python
       - uses: nvfp/ghact-dirtree@main
       - uses: ruby/setup-ruby@v1
