@@ -66,8 +66,8 @@ jobs:
             text = f"""
             ---
             permalink: {page}
-            """.strip('\n')+r"""
             ---
+            """.strip('\n')+r"""
             <!DOCTYPE html>
             <html lang="en">
             <head>
