@@ -110,6 +110,7 @@ jobs:
             with open(os.path.join(DIR, f"file_{page_idx}.html"), 'w') as f: f.write(text)
         shell: python
       - run: cat ./pages/pages_301/file_0.html
+      - run: cat ./pages/pages_301/file_10.html
       - uses: nvfp/ghact-dirtree@main
       - uses: ruby/setup-ruby@v1
         with:
