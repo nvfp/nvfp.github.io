@@ -6,5 +6,5 @@ entryPoint(() => {
     addAct(`Redirect ${window.location.href}  ->  ${dst}`)
     setTimeout(() => {
         window.location.href = dst;
-    }, 123);
+    }, 1300);
 });
