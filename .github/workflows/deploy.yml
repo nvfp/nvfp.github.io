@@ -16,45 +16,144 @@ jobs:
     permissions: {pages: write, id-token: write}
     steps:
       - uses: actions/checkout@v4
-      # - run: |
-      #     import os
-      #     pages = [
-      #       ""
-      #     ]
-      #     text = f"""
-      #     <!DOCTYPE html>
-      #     <html lang="en">
-      #     <head>
-      #         <script type="module" src="/pages/shared_scripts/stk/head/index.js"></script>
-      #         <script async src="https://www.googletagmanager.com/gtag/js?id=G-G3HERGXF6P"></script>
-      #         <script>
-      #             window.dataLayer = window.dataLayer || [];
-      #             function gtag() { dataLayer.push(arguments); }
-      #             gtag('js', new Date());
-      #             gtag('config', 'G-G3HERGXF6P');
-      #         </script>
-      #         <meta charset="UTF-8">
-      #         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      #         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      #         <title>Redirecting...</title>
-      #         <!-- 301 Redirect -->
-      #         <meta http-equiv="refresh" content="0.3;url={the_url}">
-      #         <link rel="canonical" href="{the_url}">
-      #         <script>
-      #             // Redirect using JavaScript as a fallback
-      #             window.location.replace("new-url");
-      #         </script>
-      #     </head>
-      #     <body>
-      #         <p>This page has moved. If you are not redirected automatically, follow this <a href="new-url">link</a>.</p>
-      #     </body>
-      #     </html>
-      #     """.strip('\n')
-      #   shell: python
+      - run: |  # Create 301 redirections
+          import os
+          DIR = os.path.join(os.getcwd(), 'pages_301')
+          print(f"DIR: {DIR}")
+          os.mkdir(DIR)
+          pages = [
+            "/",  # homepage
+            "/sharing-values-github-actions-steps-jobs",
+            "/difference-python-functions-classes",
+            "/capturing-values-regex-python-named-groups-vs-indexing",
+            "/jekyll-plugin-remove-trailing-slash-webpage-url",
+            "/run-ffmpeg-command-capture-output-inside-python-script",
+            "/common-issues-python-unittest-library-test-suite-discovery-module-import-problem",
+            "/github-actions-checkout-issue-unable-to-pull-latest-commit",
+            "/troubleshooting-jekyll-plugins-local-deployment-github-pages-custom-workflow",
+            "/jekyll-liquid-filters-not-updating-after-deployment",
+            "/resolve-typescript-import-issues-browser-web-dev-projects",
+            "/running-c-file-same-way-as-python-file",
+            "/common-ffmpeg-command-snippets",
+            "/how-to-set-sitemap-favicon",
+            "/create-website-zero-cost",
+            "/prevent-variable-name-clashes-javascript-iife",
+            "/jekyll-scss-not-compiled-into-css",
+            "/record-desktop-audio-windows-ffmpeg",
+            "/remove-trailing-slash-url-github-pages",
+            "/install-rust-windows-no-visual-studio",
+            "/reuse-svg-in-html",
+            "/set-up-jekyll-syntax-highlighting",
+            "/how-to-move-git-tag-to-the-latest-commit",
+            "/the-most-simple-jekyll-website-project-structure",
+            "/jekyll-how-to-get-file-modification-time",
+            "/simple-essential-jekyll-project-structure",
+            "/refactor-complex-regex-into-more-readable",
+            "/understanding-use-runtime-objects-store-pass-data-runtime",
+            "/how-to-make-my-python-module-importable",
+            "/the-ultimate-guide-uploading-own-libraries-pypi",
+            "/how-to-understand-or-make-recursive-function",
+            "/how-to-upload-folder-github-release-github-cli-github-action",
+            "/minify-files-make-website-load-faster",
+            "/how-to-use-multiple-programming-languages-in-big-project",
+            "/python-print-color-rgb-value",
+            "/run-chatbot-locally-chat-with-rtx-nvidia",
+            "/get-image-resolution-python-ffmpeg",
+          ]
+          for page_idx, page in enumerate(pages):
+            the_url = f"https://nvalentinus.com{page}"
+            
+            # text = f"""
+            # ---
+            # permalink: {page}
+            # ---
+            # <!DOCTYPE html>
+            # <html lang="en">
+            # <head>
+            #     <script type="module" src="/pages/shared_scripts/stk/head/index.js"></script>
+            #     <script async src="https://www.googletagmanager.com/gtag/js?id=G-G3HERGXF6P"></script>
+            #     <script>
+            #         window.dataLayer = window.dataLayer || [];
+            #         function gtag() { dataLayer.push(arguments); }
+            #         gtag('js', new Date());
+            #         gtag('config', 'G-G3HERGXF6P');
+            #     </script>
+            #     <meta charset="UTF-8">
+            #     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            #     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            #     <title>Redirecting to {page}...</title>
+            #     <!-- 301 Redirect -->
+            #     <meta http-equiv="refresh" content="0.3;url={the_url}">
+            #     <link rel="canonical" href="{the_url}">
+            #     <script>
+            #         // Redirect using JavaScript as a fallback
+            #         setTimeout(() => {
+            #           window.location.replace("{the_url}");
+            #         }, 300);
+            #     </script>
+            # </head>
+            # <body>
+            #     <p>This page has moved. If you are not redirected automatically, follow this <a href="{the_url}">link</a>.</p>
+                
+            #     <input type="hidden" id="for_js_script" value="{the_url}">
+            #     <script type="module" src="/pages/the_301_redirect.js"></script>
+            # </body>
+            # </html>
+            # """.strip('\n')
+            ## VVVVVVVVVVVV fixedbug: escape some `{}`
+            text = f"""
+            ---
+            permalink: {page}
+            """.strip('\n')+r"""
+            ---
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <script type="module" src="/pages/shared_scripts/stk/head/index.js"></script>
+                <script async src="https://www.googletagmanager.com/gtag/js?id=G-G3HERGXF6P"></script>
+                <script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag() { dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-G3HERGXF6P');
+                </script>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            """.strip('\n')+f"""
+                <title>Redirecting to {page}...</title>
+                <!-- 301 Redirect -->
+                <meta http-equiv="refresh" content="0.3;url={the_url}">
+                <link rel="canonical" href="{the_url}">
+                <script>
+                    // Redirect using JavaScript as a fallback
+            """.strip('\n')+r"""
+                    setTimeout(() => {
+            """.strip('\n')+f"""
+                      window.location.replace("{the_url}");
+            """.strip('\n')+r"""
+                    }, 300);
+                </script>
+            </head>
+            <body>
+            """.strip('\n')+f"""
+                <p>This page has moved. If you are not redirected automatically, follow this <a href="{the_url}">link</a>.</p>
+                
+                <input type="hidden" id="for_js_script" value="{the_url}">
+                <script type="module" src="/pages/the_301_redirect.js"></script>
+            </body>
+            </html>
+            """.strip('\n')
+
+            with open(os.path.join(DIR, f"file_{page_idx}"), 'w') as f: f.write(text)
+        shell: python
+      - uses: nvfp/ghact-dirtree@main
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.0'
       - run: gem install bundler && bundle install && bundle exec jekyll build
+      - run: cat ./_site/index.html
+      - run: cat ./_site/sharing-values-github-actions-steps-jobs.html
       - uses: nvfp/ghact-dirtree@main
         with:
           dir: ./_site
