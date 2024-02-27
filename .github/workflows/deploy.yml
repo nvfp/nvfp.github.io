@@ -19,7 +19,7 @@ jobs:
       - run: |  # Create 301 redirections
           import os
           DIR = os.path.join(os.getcwd(), 'pages', 'pages_301')
-          print(f"DIR: {DIR}")
+          # print(f"DIR: {DIR}")
           os.mkdir(DIR)
           pages = [
             "/",  # homepage
@@ -106,22 +106,23 @@ jobs:
           </body>
           </html>
           """.strip('\n')
-            print(repr(text.strip('\n')))
+            # print(repr(text.strip('\n')))  # extra strip for Jekyll.
 
+            ## Note: the frontmatter `---\n...---` should be at the top (literally at the top), or otherwise Jekyll wont compile the html file.
             with open(os.path.join(DIR, f"file_{page_idx}.html"), 'w') as f: f.write(text.strip('\n'))
         shell: python
-      - run: cat ./pages/pages_301/file_0.html
-      - run: cat ./pages/pages_301/file_10.html
-      - uses: nvfp/ghact-dirtree@main
+      # - run: cat ./pages/pages_301/file_0.html
+      # - run: cat ./pages/pages_301/file_10.html
+      # - uses: nvfp/ghact-dirtree@main
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.0'
       - run: gem install bundler && bundle install && bundle exec jekyll build
-      - uses: nvfp/ghact-dirtree@main
-        with:
-          dir: ./_site
-      - run: cat ./_site/index.html
-      - run: cat ./_site/sharing-values-github-actions-steps-jobs.html
+      # - uses: nvfp/ghact-dirtree@main
+      #   with:
+      #     dir: ./_site
+      # - run: cat ./_site/index.html
+      # - run: cat ./_site/sharing-values-github-actions-steps-jobs.html
       - uses: actions/upload-pages-artifact@v2
         if: github.event_name != 'pull_request'
       - uses: actions/deploy-pages@v2
