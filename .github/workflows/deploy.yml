@@ -1,0 +1,64 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - synchronize
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    permissions: {pages: write, id-token: write}
+    steps:
+      - uses: actions/checkout@v4
+      # - run: |
+      #     import os
+      #     pages = [
+      #       ""
+      #     ]
+      #     text = f"""
+      #     <!DOCTYPE html>
+      #     <html lang="en">
+      #     <head>
+      #         <script type="module" src="/pages/shared_scripts/stk/head/index.js"></script>
+      #         <script async src="https://www.googletagmanager.com/gtag/js?id=G-G3HERGXF6P"></script>
+      #         <script>
+      #             window.dataLayer = window.dataLayer || [];
+      #             function gtag() { dataLayer.push(arguments); }
+      #             gtag('js', new Date());
+      #             gtag('config', 'G-G3HERGXF6P');
+      #         </script>
+      #         <meta charset="UTF-8">
+      #         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      #         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      #         <title>Redirecting...</title>
+      #         <!-- 301 Redirect -->
+      #         <meta http-equiv="refresh" content="0.3;url={the_url}">
+      #         <link rel="canonical" href="{the_url}">
+      #         <script>
+      #             // Redirect using JavaScript as a fallback
+      #             window.location.replace("new-url");
+      #         </script>
+      #     </head>
+      #     <body>
+      #         <p>This page has moved. If you are not redirected automatically, follow this <a href="new-url">link</a>.</p>
+      #     </body>
+      #     </html>
+      #     """.strip('\n')
+      #   shell: python
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+      - run: gem install bundler && bundle install && bundle exec jekyll build
+      - uses: nvfp/ghact-dirtree@main
+        with:
+          dir: ./_site
+      - uses: actions/upload-pages-artifact@v2
+        if: github.event_name != 'pull_request'
+      - uses: actions/deploy-pages@v2
+        if: github.event_name != 'pull_request'

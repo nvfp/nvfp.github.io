@@ -3,8 +3,3 @@ url: https://nvfp.github.io
 
 include: 
   - pages
-
-sass:
-  style: compressed
-  sass_dir: _sass
-  sourcemap: never
