@@ -63,44 +63,6 @@ jobs:
           for page_idx, page in enumerate(pages):
             the_url = f"https://nvalentinus.com{page}"
             
-            # text = f"""
-            # ---
-            # permalink: {page}
-            # ---
-            # <!DOCTYPE html>
-            # <html lang="en">
-            # <head>
-            #     <script type="module" src="/pages/shared_scripts/stk/head/index.js"></script>
-            #     <script async src="https://www.googletagmanager.com/gtag/js?id=G-G3HERGXF6P"></script>
-            #     <script>
-            #         window.dataLayer = window.dataLayer || [];
-            #         function gtag() { dataLayer.push(arguments); }
-            #         gtag('js', new Date());
-            #         gtag('config', 'G-G3HERGXF6P');
-            #     </script>
-            #     <meta charset="UTF-8">
-            #     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            #     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            #     <title>Redirecting to {page}...</title>
-            #     <!-- 301 Redirect -->
-            #     <meta http-equiv="refresh" content="0.3;url={the_url}">
-            #     <link rel="canonical" href="{the_url}">
-            #     <script>
-            #         // Redirect using JavaScript as a fallback
-            #         setTimeout(() => {
-            #           window.location.replace("{the_url}");
-            #         }, 300);
-            #     </script>
-            # </head>
-            # <body>
-            #     <p>This page has moved. If you are not redirected automatically, follow this <a href="{the_url}">link</a>.</p>
-                
-            #     <input type="hidden" id="for_js_script" value="{the_url}">
-            #     <script type="module" src="/pages/the_301_redirect.js"></script>
-            # </body>
-            # </html>
-            # """.strip('\n')
-            ## VVVVVVVVVVVV fixedbug: escape some `{}`
             text = f"""
             ---
             permalink: {page}
@@ -147,6 +109,7 @@ jobs:
 
             with open(os.path.join(DIR, f"file_{page_idx}.html"), 'w') as f: f.write(text)
         shell: python
+      - run: cat ./pages/pages_301/file_0.html
       - uses: nvfp/ghact-dirtree@main
       - uses: ruby/setup-ruby@v1
         with:
