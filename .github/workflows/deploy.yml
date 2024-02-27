@@ -106,6 +106,7 @@ jobs:
             </body>
             </html>
             """.strip('\n')
+            print(repr(text))
 
             with open(os.path.join(DIR, f"file_{page_idx}.html"), 'w') as f: f.write(text)
         shell: python
